@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Goofy Thoughts Galore!</title>
+    <title>Global Goofy Thoughts Galore!</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -65,7 +65,7 @@
     </style>
   </head>
   <body>
-    <h1>🤪 Goofy Thoughts Galore! 🤪</h1>
+    <h1>🧌 Genius Ideas for the Masses 🔥</h1>
 
     <div id="thoughtsList"></div>
 
@@ -76,18 +76,24 @@
     />
     <button id="submitThought">Submit Thought</button>
 
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
     <script>
-      const initialThoughts = [
-        "Real eyes realize real lies",
-        "Time flies like an arrow. Fruit flies like a banana.",
-        "I used to be indecisive. Now I'm not so sure.",
-        "The last thing I want to do is hurt you... but it's still on my list.",
-        "I'm not a vegetarian because I love animals; I'm a vegetarian because I hate plants.",
-        "I don't suffer from insanity; I enjoy every minute of it.",
-        "Why do they call it rush hour when nothing moves?",
-        "I'm not saying I'm Wonder Woman, I'm just saying no one has ever seen me and Wonder Woman in the same room together.",
-        "I don't need Google, my wife knows everything.",
-      ];
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        // TODO: Replace with your Firebase project's configuration
+        databaseURL: "https://goofy-thoughts-site-default-rtdb.firebaseio.com",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Get a reference to the database service
+      const database = firebase.database();
 
       const thoughtsList = document.getElementById("thoughtsList");
       const newThought = document.getElementById("newThought");
@@ -100,14 +106,20 @@
         thoughtsList.prepend(thoughtElement);
       }
 
-      initialThoughts.forEach(addThought);
+      // Load initial thoughts
+      database.ref("thoughts").on("child_added", (snapshot) => {
+        addThought(snapshot.val().text);
+      });
 
       submitThought.addEventListener("click", () => {
         const thought = newThought.value.trim();
         if (thought) {
-          addThought(thought);
+          // Push the new thought to Firebase
+          database.ref("thoughts").push({
+            text: thought,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+          });
           newThought.value = "";
-          // In a real application, you would send this to a server here
         }
       });
 
