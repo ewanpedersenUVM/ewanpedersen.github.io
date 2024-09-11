@@ -15,6 +15,19 @@
         flex-direction: column;
         align-items: center;
       }
+      .remove {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.8em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
       h1 {
         color: #ff4757;
         text-shadow: 2px 2px #feca57;
@@ -104,6 +117,34 @@
         thoughtElement.className = "thought";
         thoughtElement.textContent = thought;
         thoughtsList.prepend(thoughtElement);
+        // remove button for each thought
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove";
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", () => {
+          removeThought(thought);
+        });
+        thoughtElement.appendChild(removeButton);
+      }
+
+      function removeThought(thought) {
+        const thoughtElements = document.getElementsByClassName("thought");
+        for (let i = 0; i < thoughtElements.length; i++) {
+          if (thoughtElements[i].textContent === thought) {
+            thoughtElements[i].remove();
+            break;
+          }
+        }
+        // remove the thought from Firebase
+        database
+          .ref("thoughts")
+          .orderByChild("text")
+          .equalTo(thought)
+          .once("value", (snapshot) => {
+            const key = Object.keys(snapshot.val())[0];
+            database.ref("thoughts").child(key).remove();
+          });
       }
 
       // Load initial thoughts
