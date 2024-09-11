@@ -5,59 +5,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ewan Pedersen - AI, Robotics, and Low-Level Programming</title>
     <style>
+      :root {
+        --bg-primary: #000000;
+        --bg-secondary: #111111;
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+        --glow-1: #ff00ff;
+        --glow-2: #00ffff;
+        --glow-3: #ffff00;
+      }
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
-        color: #333;
-        max-width: 800px;
+        color: var(--text-primary);
+        background-color: var(--bg-primary);
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
-        background-color: #f4f4f4;
       }
       header {
+        background-color: var(--bg-secondary);
+        padding: 20px 0;
         text-align: center;
-        margin-bottom: 40px;
       }
       h1 {
-        color: #2c3e50;
+        color: var(--text-primary);
+        margin: 0;
       }
       .intro {
         font-style: italic;
-        color: #7f8c8d;
+        color: var(--text-secondary);
+        margin-top: 10px;
       }
-      .links {
+      nav {
+        background-color: var(--bg-secondary);
+        padding: 10px 0;
+      }
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
         display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 20px;
+        justify-content: center;
       }
-      .link-card {
-        background-color: #fff;
+      nav ul li {
+        margin: 0 15px;
+      }
+      nav ul li a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      nav ul li a:hover {
+        color: var(--text-secondary);
+      }
+      .content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 40px 0;
+      }
+      .card {
+        background-color: var(--bg-secondary);
         border-radius: 8px;
         padding: 20px;
-        width: 200px;
         text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
+        position: relative;
+        overflow: hidden;
       }
-      .link-card:hover {
+      .card:hover {
         transform: translateY(-5px);
       }
-      .link-card svg {
+      .card::before,
+      nav ul li a::before,
+      .social-links a::before {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        background: conic-gradient(
+          from var(--angle),
+          var(--glow-1),
+          var(--glow-2),
+          var(--glow-3),
+          var(--glow-1)
+        );
+        filter: blur(10px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .card:hover::before,
+      nav ul li a:hover::before,
+      .social-links a:hover::before {
+        opacity: 1;
+        animation:
+          rotate 2s linear infinite,
+          glow-start 0.5s ease-out;
+      }
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        background: var(--bg-secondary);
+        border-radius: 8px;
+        z-index: 1;
+      }
+      .card svg {
         width: 50px;
         height: 50px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        fill: var(--text-primary);
+        position: relative;
+        z-index: 2;
       }
-      a {
-        color: #3498db;
-        text-decoration: none;
+      .card h2 {
+        color: var(--text-primary);
+        margin-top: 0;
+        position: relative;
+        z-index: 2;
       }
-      a:hover {
-        text-decoration: underline;
+      .card p {
+        color: var(--text-secondary);
+        position: relative;
+        z-index: 2;
       }
       footer {
-        margin-top: 40px;
+        background-color: var(--bg-secondary);
         text-align: center;
+        padding: 20px 0;
+        margin-top: 40px;
       }
       .social-links {
         display: flex;
@@ -65,21 +148,75 @@
         gap: 20px;
         margin-top: 20px;
       }
+      .social-links a {
+        color: var(--text-primary);
+        transition: color 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        padding: 5px;
+      }
+      .social-links a:hover {
+        color: var(--text-secondary);
+      }
       .social-links svg {
         width: 24px;
         height: 24px;
+        position: relative;
+        z-index: 2;
+      }
+      @keyframes rotate {
+        0% {
+          --angle: 0deg;
+        }
+        100% {
+          --angle: 360deg;
+        }
+      }
+      @keyframes glow-start {
+        0% {
+          opacity: 0;
+          clip-path: polygon(
+            var(--x) var(--y),
+            var(--x) var(--y),
+            var(--x) var(--y)
+          );
+        }
+        100% {
+          opacity: 1;
+          clip-path: polygon(-50% -50%, 150% -50%, 150% 150%, -50% 150%);
+        }
+      }
+      @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
       }
     </style>
   </head>
   <body>
     <header>
-      <h1>Ewan Pedersen</h1>
-      <p class="intro">AI | Robotics | Low-Level Programming</p>
+      <div class="container">
+        <h1>Ewan Pedersen</h1>
+        <p class="intro">AI | Robotics | Low-Level Programming</p>
+      </div>
     </header>
 
-    <main>
-      <div class="links">
-        <a href="#" class="link-card">
+    <nav>
+      <div class="container">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container">
+      <section id="notebook" class="content">
+        <div class="card">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -97,31 +234,13 @@
             <line x1="16" y1="17" x2="8" y2="17"></line>
             <polyline points="10 9 9 9 8 9"></polyline>
           </svg>
-          <h2>Resume</h2>
-          <p>View my professional experience</p>
-        </a>
-        <a
-          href="./stat2430/1-variable-stats-on-calculator.html"
-          class="link-card"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path
-              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
-            ></path>
-          </svg>
           <h2>Notebook</h2>
-          <p>Explore my thoughts and ideas</p>
-        </a>
-        <a href="#" class="link-card">
+          <p>View my notes for Math, AI, Statistics, and More.</p>
+        </div>
+      </section>
+
+      <section id="projects" class="content">
+        <div class="card">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -136,19 +255,14 @@
             ></path>
           </svg>
           <h2>Projects</h2>
-          <p>Check out my latest work</p>
-        </a>
-      </div>
-    </main>
+          <p>
+            Explore my latest work in AI, robotics, and low-level programming.
+          </p>
+        </div>
+      </section>
 
-    <footer>
-      <p>Connect with me:</p>
-      <div class="social-links">
-        <a
-          href="https://github.com/yourusername"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      <section id="blog" class="content">
+        <div class="card">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -158,33 +272,20 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
             <path
-              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
             ></path>
           </svg>
-        </a>
-        <a
-          href="https://linkedin.com/in/yourusername"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-            ></path>
-            <rect x="2" y="9" width="4" height="12"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
-        </a>
-        <a href="mailto:your.email@example.com">
+          <h2>Blog</h2>
+          <p>
+            Read my thoughts, insights, and tutorials on various tech topics.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact" class="content">
+        <div class="card">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -199,8 +300,92 @@
             ></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
-        </a>
+          <h2>Contact</h2>
+          <p>
+            Get in touch with me for collaborations, opportunities, or just to
+            say hello!
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>Connect with me:</p>
+        <div class="social-links">
+          <a
+            href="https://github.com/yourusername"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="https://linkedin.com/in/yourusername"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              ></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+          <a href="mailto:your.email@example.com">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+        </div>
       </div>
     </footer>
+
+    <script>
+      document
+        .querySelectorAll(".card, nav a, .social-links a")
+        .forEach((element) => {
+          element.addEventListener("mousemove", function (e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            this.style.setProperty("--x", `${x}px`);
+            this.style.setProperty("--y", `${y}px`);
+          });
+        });
+    </script>
   </body>
 </html>
