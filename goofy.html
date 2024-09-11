@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Goofy Thoughts Galore!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2, #fcb69f);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        color: #ff4757;
+        text-shadow: 2px 2px #feca57;
+        font-size: 3em;
+        text-align: center;
+      }
+      .thought {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        max-width: 600px;
+        width: 100%;
+      }
+      .thought:hover {
+        transform: scale(1.05);
+      }
+      #thoughtsList {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      #newThought {
+        width: 100%;
+        max-width: 600px;
+        padding: 10px;
+        margin: 10px 0;
+        border: 2px solid #ff6b6b;
+        border-radius: 5px;
+        font-size: 1em;
+      }
+      #submitThought {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      #submitThought:hover {
+        background-color: #ff4757;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🤪 Goofy Thoughts Galore! 🤪</h1>
+
+    <div id="thoughtsList"></div>
+
+    <input
+      type="text"
+      id="newThought"
+      placeholder="Add your goofy thought here!"
+    />
+    <button id="submitThought">Submit Thought</button>
+
+    <script>
+      const initialThoughts = [
+        "Real eyes realize real lies",
+        "Time flies like an arrow. Fruit flies like a banana.",
+        "I used to be indecisive. Now I'm not so sure.",
+        "The last thing I want to do is hurt you... but it's still on my list.",
+        "I'm not a vegetarian because I love animals; I'm a vegetarian because I hate plants.",
+        "I don't suffer from insanity; I enjoy every minute of it.",
+        "Why do they call it rush hour when nothing moves?",
+        "I'm not saying I'm Wonder Woman, I'm just saying no one has ever seen me and Wonder Woman in the same room together.",
+        "I don't need Google, my wife knows everything.",
+      ];
+
+      const thoughtsList = document.getElementById("thoughtsList");
+      const newThought = document.getElementById("newThought");
+      const submitThought = document.getElementById("submitThought");
+
+      function addThought(thought) {
+        const thoughtElement = document.createElement("div");
+        thoughtElement.className = "thought";
+        thoughtElement.textContent = thought;
+        thoughtsList.prepend(thoughtElement);
+      }
+
+      initialThoughts.forEach(addThought);
+
+      submitThought.addEventListener("click", () => {
+        const thought = newThought.value.trim();
+        if (thought) {
+          addThought(thought);
+          newThought.value = "";
+          // In a real application, you would send this to a server here
+        }
+      });
+
+      newThought.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          submitThought.click();
+        }
+      });
+    </script>
+  </body>
+</html>
