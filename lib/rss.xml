@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[VAULT]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib/media/favicon.png</url><title>VAULT</title><link></link></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Wed, 11 Sep 2024 15:10:43 GMT</lastBuildDate><atom:link href="lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 11 Sep 2024 15:10:39 GMT</pubDate><ttl>60</ttl><dc:creator></dc:creator><item><title><![CDATA[The Boston Housing Dataset]]></title><description><![CDATA[ 
+ ]]></description><link>computer_science/learning/ai/boston-housing-problem/the-boston-housing-dataset.html</link><guid isPermaLink="false">computer_science/learning/ai/boston housing problem/The Boston Housing Dataset.md</guid><pubDate>Fri, 30 Aug 2024 15:21:18 GMT</pubDate></item><item><title><![CDATA[Activation Functions]]></title><description><![CDATA[ 
+ <br><br><br>Activation functions are essential components of neural networks that determine whether a neuron should be activated or not. They introduce non-linearity into the model, enabling it to learn complex patterns and relationships in data. Without activation functions, the neural network would behave like a linear model, regardless of its depth.<br><br>
+<br>
+Sigmoid Function
+
+<br>Formula: σ(x) = 1 / (1 + e^(-x))
+<br>Range: (0, 1)
+<br>Characteristics:
+
+<br>Squashes input values to a range between 0 and 1.
+<br>Commonly used in the output layer for binary classification problems.
+<br>The gradient diminishes as the absolute value of input increases, which can slow down learning.
+
+
+
+
+<br>
+Tanh (Hyperbolic Tangent)
+
+<br>Formula: tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))
+<br>Range: (-1, 1)
+<br>Characteristics:
+
+<br>Outputs values between -1 and 1, making it zero-centered.
+<br>Typically used in hidden layers of neural networks.
+<br>Like the sigmoid, it can suffer from vanishing gradients, especially with deeper networks.
+
+
+
+
+<br>
+ReLU (Rectified Linear Unit)
+
+<br>Formula: f(x) = max(0, x)
+<br>Range: [0, ∞)
+<br>Characteristics:
+
+<br>Introduces non-linearity by outputting the input directly if it’s positive, otherwise, it outputs zero.
+<br>Efficient and easy to compute.
+<br>Helps alleviate the vanishing gradient problem.
+<br>Can suffer from the "dying ReLU" problem, where neurons can get stuck in a state of always outputting 0.
+
+
+
+
+<br>
+Leaky ReLU
+
+<br>Formula: f(x) = x if x &gt; 0, otherwise αx (where α is a small constant)
+<br>Range: (-∞, ∞)
+<br>Characteristics:
+
+<br>A variation of ReLU that allows a small, non-zero gradient when the input is negative.
+<br>Helps mitigate the dying ReLU problem.
+
+
+
+
+<br>
+Softmax<br>
+<img alt="Pasted image 20240830111119.png" src="lib/media/pasted-image-20240830111119.png">
+
+<br>Formula: σ(z_i) = e^(z_i) / Σ(e^(z_j)) for each class i
+<br>Range: (0, 1)
+<br>Characteristics:
+
+<br>Converts a vector of raw scores (logits) into probabilities.
+<br>The sum of the output probabilities is 1.
+<br>Commonly used in the output layer of multi-class classification problems.
+
+
+
+
+<br><br>The choice of activation function depends on the specific task and architecture of the neural network:<br>
+<br>Sigmoid and Tanh are more suitable for shallow networks and binary classification tasks.
+<br>ReLU and its variants (like Leaky ReLU) are generally preferred in hidden layers of deep networks due to their efficiency and ability to mitigate vanishing gradients.
+<br>Softmax is typically used in the output layer for multi-class classification tasks.
+<br>In my project, <a data-href="computer_science/python/ai_testing/xor_gate/Modeling XOR Gate" href="computer_science/python/ai_testing/xor_gate/modeling-xor-gate.html" class="internal-link" target="_self" rel="noopener">computer_science/python/ai_testing/xor_gate/Modeling XOR Gate</a>, I used ReLu for the hidden layer, but sigmoid for the output layer.<br><br>
+<br>Vanishing Gradient Problem: Functions like Sigmoid and Tanh can cause gradients to shrink significantly, slowing down the learning process. ReLU and its variants are often used to address this issue.
+<br>Exploding Gradient Problem: While not as directly related to the choice of activation function, this issue can occur in deep networks. Techniques like gradient clipping or normalization can help.
+<br>Dying ReLU Problem: Some neurons might "die" and only output zero. Leaky ReLU is a common solution to this problem.
+<br><br>Activation functions play a critical role in the performance and training of neural networks. Understanding their properties and choosing the right one for your specific use case can significantly impact the effectiveness of your models.]]></description><link>computer_science/learning/ai/conceptual-notes/activation-functions.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Activation Functions.md</guid><pubDate>Fri, 30 Aug 2024 15:11:25 GMT</pubDate><enclosure url="lib/media/pasted-image-20240830111119.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src=&quot;lib/media/pasted-image-20240830111119.png&quot;&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Backward Propagation]]></title><description><![CDATA[ 
+ ]]></description><link>computer_science/learning/ai/conceptual-notes/backward-propagation.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Backward Propagation.md</guid><pubDate>Wed, 28 Aug 2024 15:38:15 GMT</pubDate></item><item><title><![CDATA[Boltzmann Machine Neural Network]]></title><description><![CDATA[ 
+ <br><br><br>A Boltzmann Machine is a type of stochastic (randomly determined) neural network that is used to model probability distributions over binary-valued patterns. It's a foundational model in the field of probabilistic graphical models and deep learning. It is named after the Boltzmann distribution in statistical mechanics.<br><br>
+<br>Neurons: The basic units of a Boltzmann Machine, which are typically binary, meaning they can take on a value of either 0 or 1.
+<br>Weights: Connections between neurons have weights, which determine the strength and direction of their interaction.
+<br>Energy Function: The state of the network is characterized by an energy function, which the network seeks to minimize.
+<br><br><br>
+<br>The probability of a certain state in the Boltzmann Machine is related to its energy by the Boltzmann distribution:  
+<br><br>  where ( E(\text{state}) ) is the energy of the state, and ( Z ) is the partition function, which normalizes the probabilities.<br>
+<br>Lower Energy States: States with lower energy are more probable. The learning process involves adjusting the weights to lower the energy of desired states, making them more likely.
+<br><br>
+<br>Unlike traditional deterministic neural networks, the stochastic nature of Boltzmann Machines introduces uncertainty in the output. Each neuron has a probability of being on or off, which is not fixed but instead influenced by the state of other neurons and their connection weights.
+<br>Annealing: A technique inspired by statistical mechanics, where the "temperature" is gradually reduced during training to help the network settle into a state of minimal energy, thereby finding a good solution amidst uncertainty.
+<br><br>
+<br>Contrastive Divergence: A commonly used learning algorithm that approximates the gradient of the log-likelihood of the data.
+<br>Sampling: During learning, the machine needs to sample from the distribution it is modeling, which can be computationally intensive, especially for large networks.
+<br><br>
+<br>Deep Learning: Boltzmann Machines, especially the Restricted Boltzmann Machine (RBM) variant, are key building blocks in the development of deep learning architectures such as Deep Belief Networks (DBNs).
+<br>Understanding Probability: The Boltzmann Machine has contributed significantly to the understanding of how probability and uncertainty can be modeled and leveraged in neural networks. It allows for the representation of complex probability distributions and captures the inherent uncertainty in many real-world problems.
+<br><br>
+<br>Deep Belief Networks (DBNs): Understand how RBMs are stacked to form DBNs.
+<br>Gibbs Sampling: Learn about the method often used for sampling from the Boltzmann distribution.
+<br>Statistical Mechanics: Explore the roots of the Boltzmann distribution in physics, which underpins the theoretical foundation of Boltzmann Machines.
+<br><a data-tooltip-position="top" aria-label="https://www.youtube.com/watch?v=_bqa_I5hNAo" rel="noopener" class="external-link" href="https://www.youtube.com/watch?v=_bqa_I5hNAo" target="_blank">Boltzmann Machine Video</a>
+]]></description><link>computer_science/learning/ai/conceptual-notes/boltzmann-machine.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Boltzmann Machine.md</guid><pubDate>Wed, 28 Aug 2024 02:55:17 GMT</pubDate></item><item><title><![CDATA[Convolutions and Convolutional Neural Networks (CNNs)]]></title><description><![CDATA[ 
+ <br><br><br>Convolutional Neural Networks (CNNs) are a class of deep neural networks primarily used for analyzing visual data. They have been instrumental in advancing the state-of-the-art in image recognition, classification, and other tasks that involve grid-like data structures (e.g., images).<br><br>
+<br>Convolutions: The fundamental operation in CNNs that extracts features from the input data.
+<br>Feature Maps: The result of applying convolutions, representing learned features.
+<br>Pooling: A down-sampling technique used to reduce the spatial dimensions of feature maps.
+<br>Fully Connected Layers: Layers that process the final feature map output from the convolutional layers to produce the final output, such as class probabilities.
+<br><br>A convolution is an operation where a filter (or kernel) is applied to an input (like an image) to produce a feature map. The filter slides across the input, performing element-wise multiplication and summation, highlighting specific patterns such as edges, textures, or shapes.<br><br>
+<br>Input Image: A 5x5 grayscale image
+<br>Filter: A 3x3 matrix (e.g., edge detection filter)
+<br>Input Image:<br><br>Filter (Kernel):<br><br>Convolution Operation:<br>
+<br>The filter is applied to each 3x3 region of the input image.
+<br>The output is a 3x3 feature map that highlights specific patterns detected by the filter.
+<br><br>
+<br>Local Connectivity: Filters are applied to small regions of the input, making the operation computationally efficient and allowing the network to learn local patterns.
+<br>Weight Sharing: The same filter is used across the entire input, reducing the number of parameters and making the model less prone to overfitting.
+<br>Stride and Padding: Stride controls how much the filter moves during the convolution, while padding adds borders to the input to control the output size.
+<br><br>A typical CNN architecture consists of several layers, each with a specific role in feature extraction and classification:<br><br>
+<br>Apply filters to the input to generate feature maps.
+<br>Multiple filters are used to detect various features.
+<br><br>
+<br>Introduce non-linearity to the model by applying the ReLU function (Rectified Linear Unit) after each convolution.
+<br>ReLU replaces negative values in the feature map with zeros, helping the model learn complex patterns.
+<br><br>
+<br>Down-sample feature maps to reduce their spatial dimensions.
+<br>Common pooling operations include Max Pooling and Average Pooling.
+<br><br>
+<br>Flatten the final feature maps and pass them through dense layers.
+<br>These layers combine the extracted features to produce the final output, such as class scores in classification tasks.
+<br><br>Several well-known CNN architectures have set benchmarks in the field of computer vision:<br>
+<br>LeNet-5: One of the earliest CNNs, used for handwritten digit recognition.
+<br>AlexNet: A deeper architecture that won the ImageNet competition in 2012.
+<br>VGGNet: Known for its simplicity and use of small 3x3 filters.
+<br>ResNet: Introduced residual connections, allowing for much deeper networks without the vanishing gradient problem.
+<br><br>
+<br>Image Classification: Identifying objects in images (e.g., dogs, cats, cars).
+<br>Object Detection: Locating objects within an image.
+<br>Image Segmentation: Dividing an image into segments or objects.
+<br>Facial Recognition: Identifying or verifying individuals based on facial features.
+<br>Medical Imaging: Analyzing medical scans for diagnosis (e.g., detecting tumors in X-rays).
+<br><br>
+<br><a data-tooltip-position="top" aria-label="https://www.deeplearningbook.org/" rel="noopener" class="external-link" href="https://www.deeplearningbook.org/" target="_blank">Introduction to Convolutional Neural Networks</a>
+<br><a data-tooltip-position="top" aria-label="http://cs231n.stanford.edu/" rel="noopener" class="external-link" href="http://cs231n.stanford.edu/" target="_blank">Stanford CS231n: Convolutional Neural Networks for Visual Recognition</a>
+<br><a data-tooltip-position="top" aria-label="https://arxiv.org/abs/1409.1556" rel="noopener" class="external-link" href="https://arxiv.org/abs/1409.1556" target="_blank">CNN Architectures: A Comprehensive Review</a>
+]]></description><link>computer_science/learning/ai/conceptual-notes/convolutions.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Convolutions.md</guid><pubDate>Sun, 01 Sep 2024 16:26:48 GMT</pubDate></item><item><title><![CDATA[Engram and Memory Allocation/Encoding]]></title><description><![CDATA[ 
+ <br><br><img alt="Pasted image 20240904140011.png" src="lib/media/pasted-image-20240904140011.png"><br><br>In neuroscience, an engram is the physical substrate of a memory, essentially a "memory trace" in the brain. It represents the changes in neural circuits that occur when a memory is formed, stored, and later retrieved. Understanding engrams is crucial for deciphering how memories are allocated and encoded in the brain, which has profound implications for both neuroscience and artificial intelligence (AI).<br><br>
+<br>Memory Trace: The specific neurons and synaptic connections that are altered during the encoding of a memory, believed to form the engram.
+<br>Encoding: The process by which perceived information is transformed into a construct that can be stored in the brain, involving changes in synaptic strength and neural activity.
+<br>Memory Allocation: Refers to how certain neurons and circuits are selected and modified to store a particular memory.
+<br><br><br>
+<br>Long-Term Potentiation (LTP): A process where the strength of synapses (connections between neurons) is increased, making it easier for neurons to communicate in the future. LTP is considered a key mechanism underlying memory formation.
+<br>Long-Term Depression (LTD): The weakening of synaptic connections, which can also be involved in encoding memories, especially in processes like forgetting or memory refinement.
+<br><br>
+<br>Cell Assembly: A concept proposed by Donald Hebb, suggesting that memories are stored in networks of neurons that become functionally connected when activated simultaneously during an experience.
+<br>Tagging and Capture: The idea that specific neurons are "tagged" during a memory encoding event, and these tags attract the molecular changes needed to solidify the memory trace.
+<br><br><br>
+<br>Not all neurons are involved in every memory; instead, specific neurons are allocated to store a particular memory based on factors like their pre-existing activity levels, connectivity, and intrinsic properties.
+<br>Neuronal Competition: During memory allocation, neurons may compete based on their excitability and connectivity, with the most active neurons more likely to be recruited into the memory trace.
+<br><br>
+<br>Engram Cells: Specific neurons that have been altered to store a memory. Reactivating these cells (e.g., through optogenetic techniques in experimental settings) can lead to the recall of the associated memory, even in the absence of natural cues.
+<br>Pattern Completion: The process by which a partial or degraded cue can reactivate the full memory by stimulating the corresponding engram cells, a concept that is also explored in AI for memory reconstruction tasks.
+<br><br><br>
+<br>Memory Networks: The concept of engrams and memory allocation in the brain can inspire more efficient memory storage and retrieval mechanisms in artificial neural networks, particularly in models designed for tasks like sequential learning and pattern recognition.
+<br>Plasticity in AI: Incorporating principles of synaptic plasticity into AI models could lead to more adaptive learning systems that can dynamically reallocate resources as new information is encoded.
+<br><br>
+<br>Biologically Inspired Models: Engrams provide a framework for creating more brain-like memory systems in AI, with the potential for models that better mimic human memory processes, such as context-dependent recall and pattern completion.
+<br>Understanding Forgetting: Insights from engram research can help develop AI systems that not only learn new information but also manage forgetting in a way that optimizes performance, similar to how the brain refines and prioritizes memories over time.
+<br><br>
+<br>Synaptic Plasticity: Delve deeper into how LTP and LTD contribute to the formation of engrams.
+<br>Memory Reconsolidation: Explore how memories can be modified and updated, providing insight into both human cognition and potential AI applications.
+<br>Optogenetics and Engrams: Learn about experimental techniques used to manipulate and study engrams in live organisms, offering parallels to manipulating memory in AI models.
+<br><a data-tooltip-position="top" aria-label="https://www.youtube.com/watch?v=X5trRLX7PQY" rel="noopener" class="external-link" href="https://www.youtube.com/watch?v=X5trRLX7PQY" target="_blank">Engram Memory Video</a>
+]]></description><link>computer_science/learning/ai/conceptual-notes/engram-memory.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Engram Memory.md</guid><pubDate>Wed, 04 Sep 2024 18:00:13 GMT</pubDate><enclosure url="lib/media/pasted-image-20240904140011.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src=&quot;lib/media/pasted-image-20240904140011.png&quot;&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Finding the Perfect Hidden Layer Structure for Neural Networks]]></title><description><![CDATA[ 
+ <br><br>Designing the hidden layer structure for a neural network involves finding the right balance between model complexity and generalization. The goal is to develop a model that performs well on unseen data without overfitting to the training data. Several techniques can help optimize hidden layer structures, including cross-validation and hyperparameter tuning.<br><br>Neural networks consist of an input layer, one or more hidden layers, and an output layer. The hidden layers enable the network to learn complex features and patterns in the data. Key decisions involve:<br>
+<br>Number of Hidden Layers: More layers allow for more abstraction but may increase the risk of overfitting.
+<br>Number of Neurons per Layer: The number of neurons controls the network’s capacity to learn patterns.
+<br><br>
+<br>Start with one or two hidden layers and increase complexity only if necessary.
+<br>The number of neurons in hidden layers should be between the size of the input and output layers, or slightly larger.
+<br><br><br>Cross-validation helps determine the optimal network structure by evaluating performance on multiple data splits.<br>
+<br>k-fold cross-validation: The dataset is split into k groups. For each iteration, k-1 groups are used for training and 1 for testing. The process is repeated k times, and the average error is used to evaluate model performance.
+<br>Leave-one-out cross-validation (LOOCV): In this extreme form of k-fold cross-validation, k equals the number of training examples, providing a nearly unbiased estimate of model performance.
+<br>Cross-validation helps:<br>
+<br>Avoid overfitting by testing on different data subsets.
+<br>Assess model generalizability to unseen data.
+<br><br>Optimizing the hidden layers involves tuning key hyperparameters. Techniques include:<br>
+<br>Grid Search: Test all combinations of hyperparameters (e.g., number of layers, neurons, activation functions) and choose the combination that performs best.
+<br>Random Search: A less exhaustive approach that randomly samples combinations of hyperparameters. It can find good results more efficiently than grid search.
+<br>Bayesian Optimization: Uses probabilistic models to explore hyperparameters based on past performance, making it more efficient for large search spaces.
+<br><br>Prevent overfitting by controlling model complexity:<br>
+<br>L1/L2 Regularization: Add penalties to the loss function to limit the size of weights, which helps reduce overfitting.
+<br>Dropout: Randomly drop units from the neural network during training to prevent co-adaptation of neurons and improve generalization.
+<br>Batch Normalization: Standardize inputs to each hidden layer, which can stabilize learning and reduce the sensitivity to initial hyperparameters.
+<br><br>
+<br>For small datasets: Start with a single hidden layer and a small number of neurons.
+<br>For large, complex datasets: Try 2–3 hidden layers, gradually increasing the number of neurons if performance does not improve.
+<br>Empirical tests: Begin with a structure that matches the input complexity. A good starting rule is using between 1 and 2 times the number of features as neurons.
+<br><br><br>Monitor the validation loss during training and stop once the loss increases or stops improving. This prevents overtraining, ensuring that the model doesn't fit the noise in the data.<br><br>Adjust the learning rate dynamically based on performance. A scheduler can reduce the learning rate when progress slows down, helping the model converge to a better local minimum.<br><br>NAS uses search algorithms to find optimal neural network architectures. It can:<br>
+<br>Optimize the number of layers, neurons, and connections.
+<br>Be guided by objectives like accuracy, efficiency, or computational cost.
+<br><br>After training, reduce the number of neurons or layers without significantly impacting accuracy. This makes models more efficient for deployment on resource-constrained devices.<br><br><br>Finding the perfect hidden layer structure requires a combination of cross-validation, hyperparameter tuning, and regularization. While there’s no one-size-fits-all architecture, applying these techniques systematically can lead to a well-balanced model that generalizes well to unseen data. ]]></description><link>computer_science/learning/ai/conceptual-notes/finding-perfect-neuron-count.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Finding Perfect Neuron Count.md</guid><pubDate>Thu, 05 Sep 2024 15:12:21 GMT</pubDate></item><item><title><![CDATA[Hopfield Networks]]></title><description><![CDATA[ 
+ <br><br><br>A Hopfield Network is a type of recurrent artificial neural network that serves as a content-addressable memory system with binary threshold nodes. It was introduced by John Hopfield in 1982 and is known for its ability to store and retrieve patterns, acting somewhat like an associative memory.<br><br>
+<br>Binary <a class="internal-link" data-href="Neuron" href="computer_science/learning/ai/conceptual-notes/neuron.html" target="_self" rel="noopener">Neurons</a>: Each neuron in a Hopfield Network has a binary state, typically represented as +1 or -1.
+<br>Symmetric Weights: The connection weights between neurons are symmetric, meaning that the weight from neuron (i) to neuron (j) is the same as from (j) to (i).
+<br>No Self-Loops: There are no self-connections in a Hopfield Network, so a neuron's state does not directly influence itself.
+<br><br><br>
+<br>
+The network's state is described by an energy function, similar to a Boltzmann Machine. The network evolves over time to minimize this energy, moving towards stable states, known as attractors.
+
+<br>
+The energy function for a Hopfield Network is given by:  
+
+where ( w_{ij} ) is the weight between neurons ( i ) and ( j ), and ( s_i ) and ( s_j ) are the states of the respective neurons.
+
+<br><br>
+<br>The network converges to a stable state (local minimum of the energy function) after a number of iterations. Once in a stable state, the network remains there, which corresponds to a stored memory.
+<br>Attractors: The stable states or patterns that the network converges to are known as attractors. These attractors correspond to the memories or patterns stored in the network.
+<br><br><br>
+<br>
+The weights in a Hopfield Network are typically determined using Hebbian learning, which can be summarized as: "cells that fire together wire together."
+
+<br>
+For a set of patterns ( {x^1, x^2, \dots, x^p} ), the weight matrix ( W ) is defined as:
+w{ij} = \sum{\mu=1}^{p} x_i^\mu x_j^\mu
+where ( x_i^\mu ) is the state of neuron ( i ) in pattern ( \mu ).
+
+<br><br>
+<br>Storage Capacity: The maximum number of patterns that can be reliably stored in a Hopfield Network is approximately 0.15 times the number of neurons. Storing too many patterns leads to spurious attractors and errors.
+<br>Spurious States: Unintended attractors that do not correspond to any of the stored patterns can occur, which can cause the network to converge to incorrect states.
+<br><br><br>
+<br>Hopfield Networks are used in associative memory tasks, where the network can retrieve a stored pattern from a noisy or incomplete input. This makes them suitable for tasks like image reconstruction and error correction.
+<br><br>
+<br>The network's ability to converge to a minimum energy state has been utilized in solving optimization problems like the Traveling Salesman Problem (TSP) and other combinatorial problems.
+<br><br>
+<br>The Hopfield Network was a significant step in the development of recurrent neural networks and laid the groundwork for more advanced models in artificial neural networks.
+<br><br>
+<br>Associative Memory: Explore how Hopfield Networks serve as associative memories.
+<br>Spurious States and Capacity: Learn more about the limitations related to spurious states and the storage capacity of Hopfield Networks.
+<br>Recurrent Neural Networks (RNNs): Investigate how Hopfield Networks relate to modern RNN architectures.
+<br><a data-tooltip-position="top" aria-label="https://www.youtube.com/watch?v=1WPJdAW-sFo&amp;t=11s" rel="noopener" class="external-link" href="https://www.youtube.com/watch?v=1WPJdAW-sFo&amp;t=11s" target="_blank">Video</a>
+]]></description><link>computer_science/learning/ai/conceptual-notes/hopfield-networks.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Hopfield Networks.md</guid><pubDate>Mon, 26 Aug 2024 17:21:57 GMT</pubDate></item><item><title><![CDATA[Loss Functions]]></title><description><![CDATA[ 
+ <br><img alt="Pasted image 20240808140040.png" src="lib/media/pasted-image-20240808140040.png"><br><br><br>Loss functions, also known as cost functions or objective functions, are critical components in the training of neural networks. They measure the difference between the model's predictions and the actual target values, providing a way to evaluate the performance of the model. The goal of training a neural network is to minimize the loss function, thereby improving the model's accuracy.<br><br>
+<br>
+Quantifying Error
+
+<br>Loss functions provide a numerical value that quantifies the error between the predicted output and the actual target. This value guides the optimization process.
+
+
+<br>
+Guiding Optimization
+
+<br>During training, the model adjusts its weights and biases based on the gradient of the loss function. The direction and magnitude of weight updates are determined by how the loss changes with respect to each parameter. This process is typically done using algorithms like gradient descent.
+
+
+<br>
+Comparing Models
+
+<br>Loss functions allow for the comparison of different models or model configurations. A lower loss indicates a model that is performing better, making it easier to select the best model architecture.
+
+
+<br><br><br>
+<br>Formula:
+  MSE = (1/n) * Σ (yᵢ - ŷᵢ)²
+  where yᵢ is the actual value, ŷᵢ is the predicted value, and n is the number of samples.
+<br>Use Case:
+
+<br>Commonly used for regression tasks where the goal is to predict a continuous value.
+
+
+<br>Characteristics:
+
+<br>Penalizes larger errors more heavily due to the squaring of differences.
+<br>Sensitive to outliers, as large errors can disproportionately affect the loss.
+
+
+<br><br>
+<br>Binary Cross-Entropy:
+  L = -[y log(ŷ) + (1 - y) log(1 - ŷ)]
+  where y is the actual label (0 or 1), and ŷ is the predicted probability.
+<br>Categorical Cross-Entropy:
+  L = -Σ yᵢ log(ŷᵢ)
+  for multi-class classification, where yᵢ is the one-hot encoded true label, and ŷᵢ is the predicted probability for class i.
+<br>Use Case:
+
+<br>Widely used in classification tasks, both binary and multi-class.
+
+
+<br>Characteristics:
+
+<br>Measures the difference between two probability distributions (the true labels and the predicted probabilities).
+<br>Encourages the model to output probabilities close to 0 or 1, reducing uncertainty in predictions.
+
+
+<br><br>
+<br>Formula:
+  L = max(0, 1 - yᵢ * ŷᵢ)
+  where yᵢ is the true label (either -1 or 1), and ŷᵢ is the predicted output.
+<br>Use Case:
+
+<br>Commonly used in Support Vector Machines (SVM) for binary classification tasks.
+
+
+<br>Characteristics:
+
+<br>Encourages a large margin between classes, pushing the decision boundary away from data points.
+<br>The loss is only incurred if the data point is within the margin or misclassified.
+
+
+<br><br>
+<br>Formula:
+
+<br>Combines MSE and Mean Absolute Error (MAE). For small errors, it behaves like MSE, and for larger errors, it behaves like MAE.
+
+
+<br>Use Case:
+
+<br>Useful in regression tasks where the dataset contains outliers.
+
+
+<br>Characteristics:
+
+<br>Less sensitive to outliers than MSE.
+<br>Provides a balance between the robustness of MAE and the sensitivity of MSE.
+
+
+<br><br>The choice of a loss function depends on the type of problem you're solving:<br>
+<br>Regression Tasks: Mean Squared Error (MSE) is commonly used, but Huber Loss is an alternative when dealing with outliers.
+<br>Classification Tasks: Cross-Entropy Loss is the standard for both binary and multi-class classification.
+<br>Support Vector Machines: Hinge Loss is used to create a decision boundary with a margin.
+<br><br>Loss functions are essential for training neural networks as they provide the objective that the network seeks to minimize. By carefully selecting and optimizing based on the appropriate loss function, you can guide your model towards better performance, whether it's in regression, classification, or other types of predictive tasks.]]></description><link>computer_science/learning/ai/conceptual-notes/loss-functions.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Loss Functions.md</guid><pubDate>Sat, 31 Aug 2024 20:57:13 GMT</pubDate><enclosure url="lib/media/pasted-image-20240808140040.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src=&quot;lib/media/pasted-image-20240808140040.png&quot;&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Max Pooling in Machine Learning]]></title><description><![CDATA[ 
+ <br><br><br>Max pooling is a down-sampling technique commonly used in Convolutional Neural Networks (CNNs). The main objective of max pooling is to reduce the spatial dimensions (width and height) of the input feature maps while retaining the most important information. This operation helps in reducing computational cost, mitigating overfitting, and allowing the network to learn more abstract features.<br><br>Max pooling operates on a feature map by applying a pooling window (usually a 2x2 window) across the input and taking the maximum value within that window. The process is repeated across the entire feature map, effectively reducing its size.<br><br>Suppose we have a 4x4 feature map and apply a 2x2 max pooling operation with a stride of 2:<br>Input Feature Map:<br><br>After 2x2 Max Pooling:<br><br>In this example, the max pooling operation has reduced the 4x4 feature map to a 2x2 map.<br><br>
+<br>Dimensionality Reduction: By reducing the size of the feature maps, max pooling decreases the computational load in subsequent layers of the network.
+<br>Translation Invariance: Max pooling provides a form of translation invariance, meaning small translations in the input image have a minimal effect on the pooled feature map.
+<br>Overfitting Mitigation: Reducing the number of parameters and computations helps in preventing overfitting, especially in large networks.
+<br><br>
+<br>Average Pooling: Instead of taking the maximum value in each pooling window, average pooling computes the average value.
+<br>Global Max Pooling: In this variation, the pooling operation is applied to the entire feature map, producing a single value per feature map.
+<br><br>
+<br>Pooling Window Size: Common choices are 2x2 and 3x3, but the window size can vary depending on the architecture and the size of the input feature maps.
+<br>Stride: The stride determines how the window moves across the feature map. A stride of 2 is common, but it can be adjusted based on the desired output size.
+<br>Padding: Sometimes, padding is applied to the input feature maps to maintain a specific output size.
+<br><br>Max pooling is widely used in popular CNN architectures such as:<br>
+<br>LeNet
+<br>AlexNet
+<br>VGGNet
+<br>ResNet
+<br>In these architectures, max pooling layers are typically inserted between convolutional layers to progressively reduce the spatial dimensions of the feature maps.<br><br>
+<br><a data-tooltip-position="top" aria-label="https://en.wikipedia.org/wiki/Convolutional_neural_network" rel="noopener" class="external-link" href="https://en.wikipedia.org/wiki/Convolutional_neural_network" target="_blank">Convolutional Neural Networks (CNNs)</a>
+<br><a data-tooltip-position="top" aria-label="https://machinelearningmastery.com/pooling-layers-for-convolutional-neural-networks/" rel="noopener" class="external-link" href="https://machinelearningmastery.com/pooling-layers-for-convolutional-neural-networks/" target="_blank">Pooling in Convolutional Neural Networks</a>
+<br><a data-tooltip-position="top" aria-label="https://www.deeplearningbook.org/" rel="noopener" class="external-link" href="https://www.deeplearningbook.org/" target="_blank">Deep Learning Book by Ian Goodfellow - Chapter on CNNs</a>
+]]></description><link>computer_science/learning/ai/conceptual-notes/max-pooling.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Max Pooling.md</guid><pubDate>Sun, 01 Sep 2024 16:22:10 GMT</pubDate></item><item><title><![CDATA[Neural Network Modeling Workflow]]></title><description><![CDATA[ 
+ <br><br><br>
+<br>Identify the Task: Determine whether the problem is classification, regression, clustering, or another type of problem.
+
+<br>Example: Is it a linear classification problem, or does it require more complex modeling?
+
+
+<br>Determine the Output: Define what the model should predict (e.g., binary output, categorical labels, continuous values).
+<br><br>
+<br>Collect Data: Gather the dataset(s) needed for the task.
+<br>Explore and Understand the Data:
+
+<br>Visualize data distributions and relationships.
+<br>Identify missing values or outliers.
+
+
+<br>Data Cleaning:
+
+<br>Handle missing data (e.g., imputation, removal).
+<br>Remove or handle outliers.
+
+
+<br>Data Preprocessing:
+
+<br>Normalization/Standardization: Decide if data needs to be normalized or standardized based on the model type.
+<br>Encoding Categorical Variables: Convert categorical data into numerical values using methods like one-hot encoding.
+<br>Feature Engineering: Create or select features that will improve model performance.
+
+
+<br><br>
+<br>Train-Test Split: Divide the data into training and testing sets (commonly 80/20 or 70/30 splits).
+<br>Validation Set: Optionally, further split the training set into training and validation sets to fine-tune model parameters.
+<br><br>
+<br>Choose a Model Type:
+
+<br>Linear Models: For simple linear relationships.
+<br>Deep Neural Networks (DNN): For more complex tasks.
+<br>Convolutional Neural Networks (CNN): For image data.
+<br>Recurrent Neural Networks (RNN): For sequential data.
+
+
+<br>Select Architecture:
+
+<br>Input Layer: Match the number of neurons to the number of input features.
+<br>Hidden Layers: Determine the number of hidden layers and neurons in each based on problem complexity.
+<br>Activation Functions: Choose appropriate activation functions (e.g., ReLU, Sigmoid, Softmax).
+<br>Output Layer: Define based on the type of task (e.g., single neuron for binary classification, softmax for multi-class classification).
+
+
+<br><br>
+<br>Choose Loss Function: Select an appropriate loss function (e.g., cross-entropy for classification, mean squared error for regression).
+<br>**Select
+]]></description><link>computer_science/learning/ai/conceptual-notes/network-modeling-workflow.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Network Modeling Workflow.md</guid><pubDate>Fri, 30 Aug 2024 15:09:56 GMT</pubDate></item><item><title><![CDATA[Neuron]]></title><description><![CDATA[ 
+ <br><img alt="Pasted image 20240808134117.png" src="lib/media/pasted-image-20240808134117.png"><br><br><br>In neural networks, a neuron (also called a node or unit) is the fundamental building block that processes information. Inspired by the biological neurons in the human brain, artificial neurons take in inputs, apply transformations using weights and biases, and then pass the result through an activation function to produce an output.<br><br>
+<br>
+Inputs
+
+<br>Neurons receive multiple inputs, often denoted as x₁, x₂, ..., xₙ.
+<br>These inputs typically represent features from the data or outputs from other neurons in a previous layer.
+
+
+<br>
+Weights
+
+<br>Definition: Weights (w₁, w₂, ..., wₙ) are parameters that determine the importance of each input.
+<br>Role: Each input is multiplied by its corresponding weight before being summed. The weights are learned during the training process to minimize the error in the model's predictions.
+
+Weighted Sum Example:<br>
+If a neuron has inputs x₁, x₂, ..., xₙ and corresponding weights w₁, w₂, ..., wₙ, the weighted sum can be represented as:
+z = w₁x₁ + w₂x₂ + ... + wₙxₙ
+
+<br>
+Bias
+
+<br>Definition: Bias (b) is an additional parameter added to the weighted sum of inputs.
+<br>Role: The bias allows the model to shift the activation function left or right, which helps the model fit the data better. It acts as an intercept in linear equations.
+
+Final Sum Example:<br>
+The bias is added to the weighted sum to get the final value:
+z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
+
+<br>
+Activation Function
+
+<br>Definition: After computing the weighted sum (with bias), the neuron applies an activation function to this sum.
+<br>Role: The activation function introduces non-linearity into the model, allowing the neural network to learn complex patterns. Without it, the model would be equivalent to a simple linear regression model, regardless of its depth.
+
+Common Activation Functions:
+
+<br>Sigmoid: Squashes the output to a range between 0 and 1.
+<br>ReLU: Outputs the input directly if positive, otherwise, it outputs zero.
+<br>Tanh: Squashes the output to a range between -1 and 1.
+<br>Softmax: Converts the outputs into probabilities that sum to 1 (typically used in the output layer for classification).
+
+
+<br>
+Output
+
+<br>Definition: The output of a neuron is the final result after applying the activation function.
+<br>Role: This output can be passed as an input to neurons in subsequent layers or be used directly as the prediction in the case of the output layer.
+
+Output Example:<br>
+If f represents the activation function, the output of the neuron is:
+output = f(z) = f(w₁x₁ + w₂x₂ + ... + wₙxₙ + b)
+
+<br><br>
+<br>Input Reception: The neuron receives multiple inputs.
+<br>Weight Application: Each input is multiplied by its corresponding weight.
+<br>Bias Addition: The bias term is added to the weighted sum.
+<br>Activation: The sum is passed through an activation function.
+<br>Output: The neuron produces an output that is used by subsequent neurons or layers.
+<br><br>The structure of a neuron is central to how neural networks learn and make predictions. By adjusting weights and biases during training, the network can learn to model complex relationships in data. The activation function allows the network to capture non-linear patterns, making the model more powerful and capable of handling a wide variety of tasks.]]></description><link>computer_science/learning/ai/conceptual-notes/neuron.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Neuron.md</guid><pubDate>Wed, 14 Aug 2024 05:11:20 GMT</pubDate><enclosure url="lib/media/pasted-image-20240808134117.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src=&quot;lib/media/pasted-image-20240808134117.png&quot;&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Normalization in Machine Learning]]></title><description><![CDATA[ 
+ <br><br><br>Normalization is a preprocessing technique used in machine learning to scale numerical data to a common range, typically between 0 and 1. This ensures that different features contribute equally to the model, preventing features with larger ranges from dominating the learning process.<br><br>
+<br>Improves Convergence: Many optimization algorithms, like gradient descent, converge faster when the features are on similar scales.
+<br>Avoids Numerical Instability: Large input values can cause numerical instability in some algorithms, leading to poor performance or non-convergence.
+<br>Prevents Dominance: Features with larger numerical ranges might dominate the learning process, skewing the model's understanding of the data.
+<br><br><br>Min-Max normalization scales data to a fixed range, usually [0, 1]. The formula is:<br><br>
+<br>Advantages: Simple to implement, and ensures all features are within the same scale.
+<br>Disadvantages: Sensitive to outliers, as they can significantly affect the min and max values.
+<br><br>Z-score normalization scales data based on the mean and standard deviation, transforming data to have a mean of 0 and a standard deviation of 1. The formula is:<br><br>Where:<br>
+<br>
+( \mu ) is the mean of the feature.
+
+<br>
+( \sigma ) is the standard deviation of the feature.
+
+<br>
+Advantages: Less sensitive to outliers than Min-Max, especially useful when features have different units or distributions.
+
+<br>
+Disadvantages: Requires computation of mean and standard deviation, which can be computationally expensive for large datasets.
+
+<br><br>This technique scales each feature by its maximum absolute value, ensuring that the values range from -1 to 1. The formula is:<br><br>
+<br>Advantages: Keeps the sign of the data, useful when the sign of the data carries important information.
+<br>Disadvantages: Sensitive to outliers.
+<br><br>
+<br>Distance-Based Algorithms: Algorithms like k-NN, SVM, and K-Means, where distance computation is critical, benefit greatly from normalization.
+<br>Gradient Descent: Deep learning models and linear regression, which rely on gradient descent, often require normalization to ensure stable and fast convergence.
+<br>Neural Networks: Neural networks typically perform better with normalized input, as large inputs can cause exploding or vanishing gradients.
+<br><br>
+<br>Normalization in Pipelines: Ensure that normalization is part of the preprocessing pipeline and is consistently applied to both training and test data.
+<br>Normalization for Specific Models: Some models, like decision trees, are invariant to feature scaling and may not require normalization.
+<br>Inverse Transformation: If the output needs to be in the original scale, apply an inverse transformation after model prediction.
+<br><br>Here's an example of how to normalize data using Python:<br>from sklearn.preprocessing import MinMaxScaler
+
+# Example data
+x = [[-1, 2], [-0.5, 6], [0, 10], [1, 18]]
+
+# Initialize the scaler
+scaler = MinMaxScaler()
+
+# Fit and transform the data
+x_normalized = scaler.fit_transform(x)
+
+print(x_normalized)
+Copy<br><br>Normalization is a crucial step in preparing data for machine learning models. It helps in ensuring that all features contribute equally to the model's learning process and prevents numerical issues during training. Depending on the dataset and the model being used, different normalization techniques may be more appropriate.]]></description><link>computer_science/learning/ai/conceptual-notes/normalization.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Normalization.md</guid><pubDate>Mon, 26 Aug 2024 16:20:16 GMT</pubDate></item><item><title><![CDATA[Overview]]></title><description><![CDATA[ 
+ <br><br><br>
+<br>Introduction to Neural Networks
+
+<br>What are neural networks?
+<br>Basic components and architecture
+<br>Types of neural networks (Feedforward, <a class="internal-link" data-href="Convolutions" href="computer_science/learning/ai/conceptual-notes/convolutions.html" target="_self" rel="noopener">Convolutional</a>, Recurrent, etc.)
+
+
+<br>Biological Inspiration
+
+<br>How neural networks are inspired by the human brain
+<br>Similarities and differences
+
+
+<br><br>
+<br>Structure of a <a data-href="Neuron" href="computer_science/learning/ai/conceptual-notes/neuron.html" class="internal-link" target="_self" rel="noopener">Neuron</a>
+
+<br>Inputs, Weights, Biases, Activation Functions
+
+
+<br><a data-href="Activation Functions" href="computer_science/learning/ai/conceptual-notes/activation-functions.html" class="internal-link" target="_self" rel="noopener">Activation Functions</a>
+
+<br>Role of activation functions
+<br>Common types: Sigmoid, ReLU, Tanh, Softmax, etc.
+
+
+<br>Learning Process
+
+<br>How neurons learn (weight adjustments)
+<br>Gradient descent and backpropagation (coming soon)
+
+
+<br><br>
+<br>Layers of a Neural Network
+
+<br>Input layer, Hidden layers, Output layer
+
+
+<br>Types of Layers
+
+<br>Fully connected (Dense) layers
+<br>Convolutional layers (for CNNs)
+<br>Recurrent layers (for RNNs)
+
+
+<br>Choosing the Number of Layers and Neurons
+
+<br>How to decide the depth and width of your network
+
+
+<br>I have also layed out the workflow for how to design a model to fit a certain task/dataset in <a data-href="Network Modeling Workflow" href="computer_science/learning/ai/conceptual-notes/network-modeling-workflow.html" class="internal-link" target="_self" rel="noopener">Network Modeling Workflow</a><br><br>
+<br><a data-href="Loss Functions" href="computer_science/learning/ai/conceptual-notes/loss-functions.html" class="internal-link" target="_self" rel="noopener">Loss Functions</a>
+
+<br>Purpose and types: MSE, Cross-Entropy, Hinge, Huber
+
+
+<br>Optimization Algorithms
+
+<br>Gradient Descent (SGD, Mini-batch, etc.)
+<br>Advanced optimizers: Adam, RMSprop, Adagrad
+
+
+<br>Regularization Techniques
+
+<br>Preventing overfitting: L1/L2 regularization, Dropout, etc.
+
+
+<br><br>
+<br>Forward Propagation
+
+<br>How inputs are processed through the network
+
+
+<br>Backward Propagation
+
+<br>Calculating gradients and updating weights
+
+
+<br>Training Cycles
+
+<br>Epochs, Batches, and Iterations
+
+
+<br>Evaluation Metrics
+
+<br>Accuracy, Precision, Recall, F1 Score, etc.
+
+
+<br><br>
+<br>Dataset Collection
+
+<br>Finding and curating datasets
+
+
+<br>Data Preprocessing
+
+<br>Normalization, Standardization, Handling missing data
+
+
+<br>Data Augmentation
+
+<br>Techniques to artificially increase dataset size (especially in image processing)
+
+
+<br><br>
+<br>Cross-Validation
+
+<br>Ensuring generalization with techniques like k-fold cross-validation
+
+
+<br>Hyperparameter Tuning
+
+<br>Tuning learning rate, batch size, number of epochs, etc.
+<br>Grid Search, Random Search, Bayesian Optimization
+
+
+<br>Model Evaluation
+
+<br>Testing on unseen data
+<br>Analyzing confusion matrix and other metrics
+
+
+<br><br>
+<br>Saving and Loading Models
+
+<br>How to save and restore trained models
+
+
+<br>Deployment Strategies
+
+<br>Serving models in production environments
+<br>Cloud services and frameworks for deployment
+
+
+<br>Monitoring and Maintenance
+
+<br>Continuous monitoring of model performance
+<br>Handling model drift and updating models
+
+
+<br><br>
+<br>Transfer Learning
+
+<br>Using pre-trained models for new tasks
+
+
+<br>Generative Models
+
+<br>GANs, VAEs, and other generative approaches
+
+
+<br>Neural Network Interpretability
+
+<br>Techniques to understand and visualize model decisions
+
+
+]]></description><link>computer_science/learning/ai/conceptual-notes/overview.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Overview.md</guid><pubDate>Sun, 01 Sep 2024 16:24:03 GMT</pubDate></item><item><title><![CDATA[Types Of Models]]></title><description><![CDATA[ 
+ <br><br><br>
+<br>Overview:
+
+<br>Supervised learning involves training a model on labeled data, where the input-output pairs are known.
+<br>The model learns to map inputs to outputs, and it is evaluated based on its performance on unseen data.
+
+
+<br>Common Models:
+
+<br>Linear Regression: Predicts continuous values.
+<br>Logistic Regression: Used for binary classification.
+<br>Support Vector Machines (SVM): Classification and regression.
+<br>Decision Trees &amp; Random Forests: Classification and regression using tree structures.
+<br>k-Nearest Neighbors (k-NN): Instance-based learning for classification and regression.
+<br>Neural Networks: Deep learning models capable of complex mappings.
+
+
+<br><br>
+<br>Overview:
+
+<br>Unsupervised learning models are trained on data without labeled outputs.
+<br>The goal is to identify patterns or groupings within the data.
+
+
+<br>Common Models:
+
+<br>k-Means Clustering: Groups data into clusters based on similarity.
+<br>Hierarchical Clustering: Creates a tree of clusters.
+<br>Principal Component Analysis (PCA): Dimensionality reduction technique.
+<br>Autoencoders: Neural networks used for encoding data into lower dimensions and reconstructing it.
+<br>t-SNE: Visualization technique for high-dimensional data.
+
+
+<br><br>
+<br>Overview:
+
+<br>Reinforcement learning (RL) models learn by interacting with an environment and receiving feedback in the form of rewards or penalties.
+<br>The model aims to maximize cumulative rewards over time.
+
+
+<br>Key Concepts:
+
+<br>Agents: Entities that make decisions.
+<br>Environment: The space where agents operate.
+<br>Actions, States, Rewards: Fundamental components of RL.
+
+
+<br>Common Algorithms:
+
+<br>Q-Learning: A value-based approach to learning the quality of actions.
+<br>Deep Q-Networks (DQN): Combines Q-Learning with deep learning.
+<br>Policy Gradient Methods: Directly optimize the policy (the decision-making strategy).
+<br>Proximal Policy Optimization (PPO): A robust policy optimization algorithm.
+
+
+<br><br>
+<br>Overview:
+
+<br>Generative models aim to generate new data that resembles a given dataset.
+<br>These models can create realistic data, such as images, text, or audio.
+
+
+<br>Common Models:
+
+<br>Generative Adversarial Networks (GANs): Consist of two neural networks (generator and discriminator) that train together to generate realistic data.
+<br>Variational Autoencoders (VAEs): Encode data into a latent space and generate new data by sampling from this space.
+<br>Diffusion Models: Generate data by reversing a diffusion process, where data is gradually corrupted and then restored.
+
+
+<br><br>
+<br>Overview:
+
+<br>Sequence models are designed to work with sequential data, such as time series, language, or audio.
+<br>These models capture temporal dependencies and can generate or predict sequences.
+
+
+<br>Common Models:
+
+<br>Recurrent Neural Networks (RNNs): Handle sequences by maintaining a hidden state across time steps.
+<br>Long Short-Term Memory (LSTM): An advanced RNN that mitigates the vanishing gradient problem.
+<br>Gated Recurrent Units (GRU): A simpler alternative to LSTMs.
+<br>Transformers: Use attention mechanisms to process sequences without the need for recurrence, leading to faster training and better performance on tasks like language translation.
+
+
+<br><br>
+<br>Overview:
+
+<br>Transformers have revolutionized natural language processing (NLP) and other sequence-related tasks by using self-attention mechanisms.
+<br>They handle large sequences in parallel, making them highly efficient.
+
+
+<br>Key Models:
+
+<br>BERT (Bidirectional Encoder Representations from Transformers): Pre-trained model for understanding context in text.
+<br>GPT (Generative Pre-trained Transformer): A model for generating human-like text.
+<br>T5 (Text-to-Text Transfer Transformer): A versatile model that treats all NLP tasks as text-to-text problems.
+<br>Vision Transformers (ViTs): Adapt transformers for image recognition tasks.
+
+
+<br><br>
+<br>Overview:
+
+<br>GNNs are specialized models designed to work with graph-structured data, where relationships between data points are represented as edges in a graph.
+
+
+<br>Common Models:
+
+<br>Graph Convolutional Networks (GCNs): Extend convolutional networks to graph data.
+<br>Graph Attention Networks (GATs): Incorporate attention mechanisms in graph data.
+<br>Node2Vec: Learns embeddings for nodes in a graph, useful for link prediction and node classification.
+
+
+<br><br>
+<br>Overview:
+
+<br>Hybrid models combine different types of models or methodologies to leverage the strengths of each.
+
+
+<br>Examples:
+
+<br>CNN-RNN Hybrids: Combine convolutional neural networks (CNNs) with RNNs to handle spatial and temporal data simultaneously.
+<br>Attention Mechanisms with RNNs: Enhance RNNs with attention mechanisms to focus on important parts of the sequence.
+<br>Reinforcement Learning with GANs: Use reinforcement learning to optimize the generator in GANs.
+
+
+<br><br>
+<br>Overview:
+
+<br>CNNs are specialized neural networks designed for processing grid-like data, such as images.
+<br>They use convolutional layers to extract features and are highly effective for image recognition tasks.
+
+
+<br>Key Components:
+
+<br>Convolutional Layers: Apply filters to input data to extract features.
+<br>Pooling Layers: Reduce the spatial dimensions of the data.
+<br>Fully Connected Layers: Traditional neural network layers for classification.
+
+
+<br>Examples
+
+<br>LeNet: One of the earliest CNN architectures.
+<br>AlexNet: A deep CNN that won the ImageNet competition in 2012.
+<br>VGG: Known for its simplicity and effectiveness.
+<br>ResNet: Introduces skip connections to address the vanishing gradient problem.
+
+
+<br><br>
+<br>Diffusion Models:
+
+<br>Overview: Generate data by learning to reverse a process that gradually adds noise to data.
+<br>Applications: Image generation, data synthesis, and more.
+
+
+<br>Neural ODEs (Ordinary Differential Equations):
+
+<br>Overview: Models that use continuous-time dynamics for learning complex patterns.
+<br>Applications: Time series forecasting, physics simulations.
+
+
+<br>Meta-Learning Models:
+
+<br>Overview: Learn to learn new tasks quickly by leveraging knowledge from previous tasks.
+<br>Applications: Few-shot learning, rapid adaptation to new domains.
+
+
+]]></description><link>computer_science/learning/ai/conceptual-notes/types-of-models.html</link><guid isPermaLink="false">computer_science/learning/ai/conceptual notes/Types Of Models.md</guid><pubDate>Thu, 08 Aug 2024 21:10:28 GMT</pubDate></item><item><title><![CDATA[Function Calling in Language Models]]></title><description><![CDATA[ 
+ <br><br><br>Function calling in language models refers to the ability of a model to not only generate text but also interact with external functions or APIs. This capability allows the model to perform specific tasks like retrieving data, performing calculations, or interacting with other systems, enhancing its utility beyond just text generation.<br><br>In language models, function calling typically involves the following steps:<br>
+<br>
+Prompting: The model is provided with a prompt that includes an instruction to call a specific function. The prompt might include the function's name, expected inputs, and sometimes an example of the output.
+
+<br>
+Function Invocation: The model interprets the prompt and triggers the function call. This can be done through a framework or custom implementation where the model's output is parsed to identify the function to call.
+
+<br>
+Execution and Response: The specified function is executed, and the output is either returned to the model or used directly in the application. The model can then continue its operation, potentially using the function's output in subsequent text generation.
+
+<br>
+Integration: The integration with functions is often handled by a middleware or framework that connects the model's output with the appropriate functions, handling inputs and outputs.
+
+<br><br><br>LangChain is a framework designed to create chains of calls to language models and other utilities. It allows you to build more complex workflows that can include function calls.<br>Steps to Set Up Function Calling with LangChain:<br>
+<br>
+Install LangChain:
+pip install langchain
+Copy
+
+<br>
+Define Functions: Create Python functions that you want to be called by the language model.
+def get_weather(location):
+    # Imagine this calls a weather API
+    return f"The weather in {location} is sunny."
+Copy
+
+<br>
+Set Up the Chain: Use LangChain to set up a sequence where the model's output triggers the function.
+from langchain.chains import SimpleChain
+
+def model_function(input):
+    if "weather" in input:
+        location = extract_location(input)
+        return get_weather(location)
+    return "I can't help with that."
+
+chain = SimpleChain(
+    input="What's the weather in New York?",
+    model=model_function
+)
+
+result = chain.run()
+print(result)
+Copy
+
+<br>
+Run the Chain: Execute the chain to see the model interacting with the function.
+
+<br><br>Langroid is another framework that allows for enhanced interactions with language models, including function calling. It focuses on creating agents that can handle complex tasks by chaining functions and model calls.<br>Steps to Set Up Function Calling with Langroid:<br>
+<br>
+Install Langroid:
+pip install langroid
+Copy
+
+<br>
+Create an Agent: Set up an agent in Langroid that can handle function calls.
+from langroid.agent import Agent
+
+def weather_function(location):
+    return f"The weather in {location} is cloudy."
+
+agent = Agent()
+agent.add_function("get_weather", weather_function)
+
+response = agent.query("Get the weather in London")
+print(response)
+Copy
+
+<br>
+Define the Interaction: Specify how the agent should interact with the function and handle inputs.
+
+<br>
+Run the Agent: Deploy the agent to handle function calls as part of the model's workflow.
+
+<br><br>Function calling in language models expands the capabilities of these models, allowing them to interact with external systems and perform tasks beyond text generation. By using frameworks like LangChain and Langroid, you can easily integrate function calls into your language model workflows, enabling more complex and dynamic applications.]]></description><link>computer_science/learning/ai/llm-tooling/function-calling.html</link><guid isPermaLink="false">computer_science/learning/ai/llm tooling/Function Calling.md</guid><pubDate>Wed, 04 Sep 2024 02:42:27 GMT</pubDate></item><item><title><![CDATA[Modeling XOR Gate]]></title><description><![CDATA[ 
+ <br><img alt="Pasted image 20240827104958.png" src="lib/media/pasted-image-20240827104958.png">]]></description><link>computer_science/learning/ai/modeling-xor/modeling-xor-gate.html</link><guid isPermaLink="false">computer_science/learning/ai/modeling xor/Modeling XOR Gate.md</guid><pubDate>Tue, 27 Aug 2024 14:50:00 GMT</pubDate><enclosure url="lib/media/pasted-image-20240827104958.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src=&quot;lib/media/pasted-image-20240827104958.png&quot;&gt;&lt;/figure&gt;</content:encoded></item><item><title><![CDATA[Progress Tracking]]></title><description><![CDATA[ 
+ ]]></description><link>computer_science/learning/ai/stanford-overview-ai/progress-tracking.html</link><guid isPermaLink="false">computer_science/learning/ai/Stanford Overview AI/Progress Tracking.md</guid><pubDate>Sat, 10 Aug 2024 21:44:52 GMT</pubDate></item><item><title><![CDATA[Notable Resources for learning concepts of Artificial intelligence]]></title><description><![CDATA[ 
+ <br><br>Here is a compiled list of some online resources that can be used to learn the basics of AI for free. Most of these are video playlists, but some of these sources are reading materials.<br><br>Stanford online contains several AI courses on their YouTube channel for free, both on the general concepts of the subject, but also diving deeper into newer, more advanced models like LLM's and other language modelling architectures<br><a data-tooltip-position="top" aria-label="https://www.youtube.com/watch?v=XZ0PMRWXBEU&amp;list=PLoROMvodv4rPOWA-omMM6STXaWW4FvJT8" rel="noopener" class="external-link" href="https://www.youtube.com/watch?v=XZ0PMRWXBEU&amp;list=PLoROMvodv4rPOWA-omMM6STXaWW4FvJT8" target="_blank">Deep Generative Models</a><br><a data-tooltip-position="top" aria-label="https://www.youtube.com/watch?v=J8Eh7RqggsU&amp;list=PLoROMvodv4rO1NB9TD4iUZ3qghGEGtqNX" rel="noopener" class="external-link" href="https://www.youtube.com/watch?v=J8Eh7RqggsU&amp;list=PLoROMvodv4rO1NB9TD4iUZ3qghGEGtqNX" target="_blank">Overview Artificial Intelligence</a><br><br>Very dense and comprehensive book on everything there is to know on AI in 2024, but a very long read...<br><a data-tooltip-position="top" aria-label="https://udlbook.github.io/udlbook/" rel="noopener" class="external-link" href="https://udlbook.github.io/udlbook/" target="_blank">Understanding Deep Learning</a>]]></description><link>computer_science/learning/ai/ai-learning-materials.html</link><guid isPermaLink="false">computer_science/learning/ai/AI Learning Materials.md</guid><pubDate>Sat, 10 Aug 2024 21:42:18 GMT</pubDate></item></channel></rss>
