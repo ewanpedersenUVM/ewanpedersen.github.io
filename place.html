@@ -114,6 +114,9 @@
         "#00FFFF",
         "#FFFFFF",
         "#000000",
+        "#FFA500",
+        "#800080",
+        "#008000",
       ];
       let selectedColor = colors[0];
 
@@ -138,6 +141,14 @@
         colorPicker.appendChild(colorOption);
       });
       document.querySelector(".color-option").classList.add("selected");
+
+      // custom color picker with hex value input
+      const customColor = document.createElement("input");
+      customColor.type = "color";
+      customColor.addEventListener("change", (event) => {
+        selectedColor = event.target.value;
+      });
+      colorPicker.appendChild(customColor);
 
       // Load initial state
       database.ref("pixels").once("value", (snapshot) => {
