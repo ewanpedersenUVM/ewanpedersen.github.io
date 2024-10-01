@@ -44,7 +44,7 @@
     </style>
   </head>
   <body>
-    <h1>Ewan's Canvas</h1>
+    <h1>r/place Clone with Zoom</h1>
     <div id="color-picker"></div>
     <div id="canvas-container">
       <canvas id="place-canvas" width="500" height="500"></canvas>
@@ -141,7 +141,7 @@
       // Zoom functionality
       canvasContainer.addEventListener("wheel", (event) => {
         event.preventDefault();
-        const zoomFactor = event.deltaY > 0 ? 0.9 : 1.1;
+        const zoomFactor = event.deltaY > 0 ? 0.95 : 1.05;
         zoom *= zoomFactor;
         zoom = Math.max(1, Math.min(zoom, 20)); // Limit zoom between 1x and 20x
 
