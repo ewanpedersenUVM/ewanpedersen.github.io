@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>r/place Clone with Zoom</title>
+    <title>r/place Clone with Sharp Zoom</title>
     <style>
       body {
         display: flex;
@@ -40,11 +40,13 @@
         position: absolute;
         top: 0;
         left: 0;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
       }
     </style>
   </head>
   <body>
-    <h1>r/place Clone with Zoom</h1>
+    <h1>r/place Clone with Sharp Zoom</h1>
     <div id="color-picker"></div>
     <div id="canvas-container">
       <canvas id="place-canvas" width="500" height="500"></canvas>
@@ -202,7 +204,7 @@
         // Draw grid when zoomed in
         if (zoom > 5) {
           ctx.strokeStyle = "rgba(200, 200, 200, 0.5)";
-          ctx.lineWidth = 0.1;
+          ctx.lineWidth = 0.5 / zoom; // Adjust line width based on zoom
           for (let x = 0; x <= canvas.width; x++) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
