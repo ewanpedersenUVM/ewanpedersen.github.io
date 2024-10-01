@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>r/place Clone with Sharp Zoom</title>
+    <title>r/place Clone with Accurate Zoom</title>
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -56,7 +56,6 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         background-color: #fff;
         margin: 0 auto;
-        border-radius: 5px;
       }
       #place-canvas {
         position: absolute;
@@ -74,7 +73,7 @@
   </head>
   <body>
     <div class="container">
-      <h1>Ewan's Canvas</h1>
+      <h1>r/place Clone with Accurate Zoom</h1>
       <div id="color-picker"></div>
       <div id="canvas-container">
         <canvas id="place-canvas" width="500" height="500"></canvas>
@@ -118,8 +117,8 @@
       let selectedColor = colors[0];
 
       let zoom = 1;
-      let panX = 0;
-      let panY = 0;
+      let offsetX = 0;
+      let offsetY = 0;
       let isDragging = false;
       let lastX, lastY;
 
@@ -161,8 +160,8 @@
       // Handle canvas click
       canvas.addEventListener("click", (event) => {
         const rect = canvas.getBoundingClientRect();
-        const x = Math.floor((event.clientX - rect.left - panX) / zoom);
-        const y = Math.floor((event.clientY - rect.top - panY) / zoom);
+        const x = Math.floor((event.clientX - rect.left) / zoom + offsetX);
+        const y = Math.floor((event.clientY - rect.top) / zoom + offsetY);
 
         if (x >= 0 && x < 500 && y >= 0 && y < 500) {
           ctx.fillStyle = selectedColor;
@@ -180,11 +179,12 @@
         const mouseY = event.clientY - rect.top;
 
         const zoomFactor = event.deltaY > 0 ? 0.95 : 1.05;
-        zoom *= zoomFactor;
-        zoom = Math.max(1, Math.min(zoom, 40));
+        const newZoom = Math.max(1, Math.min(zoom * zoomFactor, 40));
 
-        panX = mouseX - (mouseX - panX) * zoomFactor;
-        panY = mouseY - (mouseY - panY) * zoomFactor;
+        offsetX += mouseX / zoom - mouseX / newZoom;
+        offsetY += mouseY / zoom - mouseY / newZoom;
+
+        zoom = newZoom;
 
         updateCanvasTransform();
         drawGrid();
@@ -201,8 +201,8 @@
         if (isDragging) {
           const deltaX = event.clientX - lastX;
           const deltaY = event.clientY - lastY;
-          panX += deltaX;
-          panY += deltaY;
+          offsetX -= deltaX / zoom;
+          offsetY -= deltaY / zoom;
           lastX = event.clientX;
           lastY = event.clientY;
           updateCanvasTransform();
@@ -215,7 +215,8 @@
       });
 
       function updateCanvasTransform() {
-        canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+        ctx.setTransform(zoom, 0, 0, zoom, -offsetX * zoom, -offsetY * zoom);
+        drawGrid();
       }
 
       function drawGrid() {
@@ -238,20 +239,27 @@
         if (zoom > 5) {
           ctx.strokeStyle = "rgba(200, 200, 200, 0.5)";
           ctx.lineWidth = 0.5 / zoom;
-          for (let x = 0; x <= canvas.width; x++) {
+          const startX = Math.floor(offsetX);
+          const startY = Math.floor(offsetY);
+          const endX = Math.ceil(offsetX + canvas.width / zoom);
+          const endY = Math.ceil(offsetY + canvas.height / zoom);
+
+          for (let x = startX; x <= endX; x++) {
             ctx.beginPath();
-            ctx.moveTo(x, 0);
-            ctx.lineTo(x, canvas.height);
+            ctx.moveTo(x, startY);
+            ctx.lineTo(x, endY);
             ctx.stroke();
           }
-          for (let y = 0; y <= canvas.height; y++) {
+          for (let y = startY; y <= endY; y++) {
             ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
+            ctx.moveTo(startX, y);
+            ctx.lineTo(endX, y);
             ctx.stroke();
           }
         }
       }
+
+      updateCanvasTransform();
     </script>
   </body>
 </html>
