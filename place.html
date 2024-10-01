@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>r/place Clone</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: Arial, sans-serif;
+      }
+      #color-picker {
+        margin: 10px 0;
+      }
+      .color-option {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        margin: 0 5px;
+        cursor: pointer;
+        border: 2px solid #000;
+      }
+      .color-option.selected {
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 2px #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>r/place Clone</h1>
+    <div id="color-picker"></div>
+    <canvas id="place-canvas" width="500" height="500"></canvas>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+      // Initialize Firebase (replace with your own config)
+      const firebaseConfig = {
+        apiKey: "AIzaSyDQAE6WE7BiWdRt2ylBRRJW6QZvL6QsOC4",
+        authDomain: "place-clone-4acea.firebaseapp.com",
+        databaseURL: "https://place-clone-4acea-default-rtdb.firebaseio.com",
+        projectId: "place-clone-4acea",
+        storageBucket: "place-clone-4acea.appspot.com",
+        messagingSenderId: "211220996945",
+        appId: "1:211220996945:web:42d06b8126cbac811a6970",
+        measurementId: "G-54V8G39W4W",
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      const database = firebase.database();
+      const canvas = document.getElementById("place-canvas");
+      const ctx = canvas.getContext("2d");
+      const colorPicker = document.getElementById("color-picker");
+      const colors = [
+        "#FF0000",
+        "#00FF00",
+        "#0000FF",
+        "#FFFF00",
+        "#FF00FF",
+        "#00FFFF",
+        "#FFFFFF",
+        "#000000",
+      ];
+      let selectedColor = colors[0];
+
+      // Create color picker
+      colors.forEach((color) => {
+        const colorOption = document.createElement("div");
+        colorOption.className = "color-option";
+        colorOption.style.backgroundColor = color;
+        colorOption.addEventListener("click", () => {
+          document
+            .querySelectorAll(".color-option")
+            .forEach((el) => el.classList.remove("selected"));
+          colorOption.classList.add("selected");
+          selectedColor = color;
+        });
+        colorPicker.appendChild(colorOption);
+      });
+      document.querySelector(".color-option").classList.add("selected");
+
+      // Load initial state
+      database.ref("pixels").once("value", (snapshot) => {
+        const pixels = snapshot.val() || {};
+        Object.entries(pixels).forEach(([key, color]) => {
+          const [x, y] = key.split(",").map(Number);
+          ctx.fillStyle = color;
+          ctx.fillRect(x, y, 1, 1);
+        });
+      });
+
+      // Listen for updates
+      database.ref("pixels").on("child_changed", (snapshot) => {
+        const [x, y] = snapshot.key.split(",").map(Number);
+        ctx.fillStyle = snapshot.val();
+        ctx.fillRect(x, y, 1, 1);
+      });
+
+      // Handle canvas click
+      canvas.addEventListener("click", (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.floor(event.clientX - rect.left);
+        const y = Math.floor(event.clientY - rect.top);
+
+        ctx.fillStyle = selectedColor;
+        ctx.fillRect(x, y, 1, 1);
+
+        database.ref(`pixels/${x},${y}`).set(selectedColor);
+      });
+    </script>
+  </body>
+</html>
