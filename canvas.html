@@ -77,7 +77,7 @@
       <h1>Ewan's Canvas</h1>
       <div id="color-picker"></div>
       <div id="canvas-container">
-        <canvas id="place-canvas" width="500" height="500"></canvas>
+        <canvas id="place-canvas" width="990" height="600"></canvas>
       </div>
       <p class="instructions">
         Use mouse wheel to zoom, click and drag to pan, click to place a pixel
@@ -125,6 +125,8 @@
       let offsetY = 0;
       let isDragging = false;
       let lastX, lastY;
+      let pixelData = new Map();
+      let isDrawing = false;
 
       // Create color picker
       colors.forEach((color) => {
@@ -155,18 +157,16 @@
         const pixels = snapshot.val() || {};
         Object.entries(pixels).forEach(([key, color]) => {
           const [x, y] = key.split(",").map(Number);
-          ctx.fillStyle = color;
-          ctx.fillRect(x, y, 1, 1);
+          pixelData.set(`${x},${y}`, color);
         });
-        drawGrid();
+        drawCanvas();
       });
 
       // Listen for updates
       database.ref("pixels").on("child_changed", (snapshot) => {
         const [x, y] = snapshot.key.split(",").map(Number);
-        ctx.fillStyle = snapshot.val();
-        ctx.fillRect(x, y, 1, 1);
-        drawGrid();
+        pixelData.set(`${x},${y}`, snapshot.val());
+        drawPixel(x, y, snapshot.val());
       });
 
       // Handle canvas click
@@ -176,10 +176,9 @@
         const y = Math.floor((event.clientY - rect.top) / zoom + offsetY);
 
         if (x >= 0 && x < 500 && y >= 0 && y < 500) {
-          ctx.fillStyle = selectedColor;
-          ctx.fillRect(x, y, 1, 1);
+          pixelData.set(`${x},${y}`, selectedColor);
+          drawPixel(x, y, selectedColor);
           database.ref(`pixels/${x},${y}`).set(selectedColor);
-          drawGrid();
         }
       });
 
@@ -199,7 +198,7 @@
         zoom = newZoom;
 
         updateCanvasTransform();
-        drawGrid();
+        drawCanvas();
       });
 
       // Pan functionality
@@ -218,7 +217,7 @@
           lastX = event.clientX;
           lastY = event.clientY;
           updateCanvasTransform();
-          drawGrid();
+          drawCanvas();
         }
       });
 
@@ -228,50 +227,65 @@
 
       function updateCanvasTransform() {
         ctx.setTransform(zoom, 0, 0, zoom, -offsetX * zoom, -offsetY * zoom);
-        drawGrid();
       }
 
-      function drawGrid() {
-        ctx.save();
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.restore();
+      function drawCanvas() {
+        if (isDrawing) return;
+        isDrawing = true;
+        requestAnimationFrame(() => {
+          ctx.save();
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.restore();
 
-        // Redraw all pixels
-        database.ref("pixels").once("value", (snapshot) => {
-          const pixels = snapshot.val() || {};
-          Object.entries(pixels).forEach(([key, color]) => {
-            const [x, y] = key.split(",").map(Number);
-            ctx.fillStyle = color;
-            ctx.fillRect(x, y, 1, 1);
-          });
-        });
+          updateCanvasTransform();
 
-        // Draw grid when zoomed in
-        if (zoom > 5) {
-          ctx.strokeStyle = "rgba(200, 200, 200, 0.5)";
-          ctx.lineWidth = 0.5 / zoom;
+          // Draw visible pixels
           const startX = Math.floor(offsetX);
           const startY = Math.floor(offsetY);
           const endX = Math.ceil(offsetX + canvas.width / zoom);
           const endY = Math.ceil(offsetY + canvas.height / zoom);
 
-          for (let x = startX; x <= endX; x++) {
-            ctx.beginPath();
-            ctx.moveTo(x, startY);
-            ctx.lineTo(x, endY);
-            ctx.stroke();
+          for (let y = startY; y < endY; y++) {
+            for (let x = startX; x < endX; x++) {
+              const color = pixelData.get(`${x},${y}`);
+              if (color) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, 1, 1);
+              }
+            }
           }
-          for (let y = startY; y <= endY; y++) {
-            ctx.beginPath();
-            ctx.moveTo(startX, y);
-            ctx.lineTo(endX, y);
-            ctx.stroke();
+
+          // Draw grid when zoomed in
+          if (zoom > 5) {
+            ctx.strokeStyle = "rgba(200, 200, 200, 0.5)";
+            ctx.lineWidth = 0.5 / zoom;
+
+            for (let x = startX; x <= endX; x++) {
+              ctx.beginPath();
+              ctx.moveTo(x, startY);
+              ctx.lineTo(x, endY);
+              ctx.stroke();
+            }
+            for (let y = startY; y <= endY; y++) {
+              ctx.beginPath();
+              ctx.moveTo(startX, y);
+              ctx.lineTo(endX, y);
+              ctx.stroke();
+            }
           }
-        }
+
+          isDrawing = false;
+        });
+      }
+
+      function drawPixel(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, 1, 1);
       }
 
       updateCanvasTransform();
+      drawCanvas();
     </script>
   </body>
 </html>
